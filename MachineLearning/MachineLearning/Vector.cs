@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MachineLearning {
-    class Vector {
+    public class Vector {
         public readonly int Length; // длина вектора
         public double[] values; // значения вектора
 
@@ -42,6 +42,16 @@ namespace MachineLearning {
         // копирование вектора
         public Vector Copy() {
             return new Vector(values);
+        }
+
+        // Применение функции активации f к вектору
+        public Vector Activate(ActivationFunction f) {
+            Vector activated = new Vector(Length);
+
+            for (int i = 0; i < Length; i++)
+                activated.values[i] = f(values[i]);
+
+            return activated;
         }
     }
 }

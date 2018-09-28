@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MachineLearning {
-    class KNearestNeighbors {
+    public class KNearestNeighbors {
         public enum MetricType {
             Euclid,
             Manhattan
