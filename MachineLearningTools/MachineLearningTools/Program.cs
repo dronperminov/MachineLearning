@@ -415,7 +415,7 @@ namespace MachineLearningTools {
             writer.Close();
         }
 
-        static void PredictByKNN(string trainPath, string[] classes, int k, string testPath, int skiplines, string predictPath, string headline = "") {
+        static void PredictByKNN(string trainPath, string[] classes, int k, string testPath, int skiplines, string predictPath, KNearestNeighbors.MetricType type, string headline = "") {
             StreamReader train = new StreamReader(trainPath);
 
             for (int i = 0; i < skiplines; i++)
@@ -446,7 +446,7 @@ namespace MachineLearningTools {
                 rowNumber++;
             }
 
-            KNearestNeighbors KNN = new KNearestNeighbors(inputData.ToArray(), outputData.ToArray(), classes.Length, k, KNearestNeighbors.MetricType.Manhattan);
+            KNearestNeighbors KNN = new KNearestNeighbors(inputData.ToArray(), outputData.ToArray(), classes.Length, k, typen);
             StreamReader reader = new StreamReader(testPath);
             StreamWriter writer = new StreamWriter(predictPath);
 
@@ -718,10 +718,12 @@ namespace MachineLearningTools {
             int skiplines = int.Parse(Console.ReadLine());
             Console.Write("Enter path to predict file: ");
             string predictPath = Console.ReadLine();
+            Console.Write("Enter type of metric (0 - Euclid, 1 - Manhattan): ");
+            KNearestNeighbors.MetricType type = (KNearestNeighbors.MetricType)int.Parse(Console.ReadLine());
             Console.Write("Enter headline (may be empty): ");
             string headline = Console.ReadLine();
 
-            PredictByKNN(trainPath, classes, k, testPath, skiplines, predictPath, headline);
+            PredictByKNN(trainPath, classes, k, testPath, skiplines, predictPath, type, headline);
 
             Console.Write("Do you want to check accuracy? (y/n): ");
             bool check = Console.ReadLine() == "y";
