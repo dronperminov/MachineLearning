@@ -354,10 +354,11 @@ namespace MachineLearningTools {
                 for (int i = 0; i < input.Length; i++)
                     input[i] = 0.01 + double.Parse(splited[i + 1]) / 255 * 0.99;
 
-                Console.SetCursorPosition(0, Console.CursorTop - 1);
-                Console.WriteLine("Create {0} input and output vectors of data", inputData.Count);
                 inputData.Add(input);
                 outputData.Add(output);
+
+                Console.SetCursorPosition(0, Console.CursorTop - 1);
+                Console.WriteLine("Create {0} input and output vectors of data", inputData.Count);
             }
 
             reader.Close();
@@ -434,6 +435,9 @@ namespace MachineLearningTools {
                 Vector input = new Vector(splited.Length - 1);
                 int index = Array.IndexOf(classes, splited[0]);
 
+                if (index == -1)
+                    throw new Exception("Can't find class for '" + splited[0] + "'");
+
                 outputData.Add(index);
 
                 for (int i = 0; i < input.Length; i++)
@@ -446,7 +450,7 @@ namespace MachineLearningTools {
                 rowNumber++;
             }
 
-            KNearestNeighbors KNN = new KNearestNeighbors(inputData.ToArray(), outputData.ToArray(), classes.Length, k, typen);
+            KNearestNeighbors KNN = new KNearestNeighbors(inputData.ToArray(), outputData.ToArray(), classes.Length, k, type);
             StreamReader reader = new StreamReader(testPath);
             StreamWriter writer = new StreamWriter(predictPath);
 
@@ -473,6 +477,7 @@ namespace MachineLearningTools {
 
                 Console.SetCursorPosition(0, Console.CursorTop - 1);
                 Console.WriteLine("Classified row{0} ({1})", rowNumber, classes[index]);
+
                 writer.WriteLine("{0},{1}", rowNumber, classes[index]);
                 rowNumber++;
             }
@@ -718,7 +723,7 @@ namespace MachineLearningTools {
             int skiplines = int.Parse(Console.ReadLine());
             Console.Write("Enter path to predict file: ");
             string predictPath = Console.ReadLine();
-            Console.Write("Enter type of metric (0 - Euclid, 1 - Manhattan): ");
+            Console.Write("Enter type of metric (0 - Sim, 1 - Manhattan, 2 - Euclid, 3 - L3 norm): ");
             KNearestNeighbors.MetricType type = (KNearestNeighbors.MetricType)int.Parse(Console.ReadLine());
             Console.Write("Enter headline (may be empty): ");
             string headline = Console.ReadLine();
