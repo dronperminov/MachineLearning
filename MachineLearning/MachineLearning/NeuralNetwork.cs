@@ -154,13 +154,13 @@ namespace MachineLearning {
             if (time.TotalMilliseconds < 1000)
                 return time.ToString("fff") + " ms";
 
-            if (time.TotalMilliseconds < 60000)
-                return time.ToString("ss.fff") + "s";
+            if (time.TotalMilliseconds < 60 * 1000)
+                return time.ToString(@"ss\.fff") + "s";
 
-            if (time.TotalMilliseconds < 3600000)
-                return time.ToString("mm:ss.fff");
+            if (time.TotalMilliseconds < 60 * 60 * 1000)
+                return time.ToString(@"mm\:ss\.fff");
 
-            return time.ToString("hh:mm:ss.fff");
+            return time.ToString(@"hh\:mm\:ss\:fff");
         }
 
         // обучение сети методом обратного распространения ошибки с моментом
